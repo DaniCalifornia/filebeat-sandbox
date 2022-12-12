@@ -6,18 +6,10 @@ datadog:
   kubelet:
     tlsVerify: false
   logLevel: DEBUG
-  confd:
-    traefik.yaml: |-
-      ad_identifiers:
-        - traefik
-      init_config:
-      instances:
-        - host: "%%host%%"
-          port: 8080
   kubeStateMetricsEnabled: false
 agents:
   image: 
-    name: traefik_agent
-    tag: version1
-    repository: docker.io/throatslasher/traefik_agent
+    name: fb-agent
+    tag: v1
+    repository: docker.io/throatslasher/fb-agent
     doNotCheckTag: true
