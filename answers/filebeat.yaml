@@ -14,17 +14,16 @@ spec:
       labels:
         app: filebeat
       annotations:
-        ad.datadoghq.com/my-container.check_names: '["filebeat"]'
-        ad.datadoghq.com/my-container.init_configs: '[{}]'
-        ad.datadoghq.com/my-container.instances: |
+        ad.datadoghq.com/filebeat.check_names: '["filebeat"]'
+        ad.datadoghq.com/filebeat.init_configs: '[{}]'
+        ad.datadoghq.com/filebeat.instances: |
           [
             {
               "stats_endpoint": "%%host%%:2828/stats",
               "registry_file_path": "/var/lib/filebeat/registry",
               "port": "8080",
               "only_metrics": [
-                "^filebeat", 
-                "^publish\.events$"
+                "^filebeat"              
               ]    
             }
           ]

@@ -69,3 +69,49 @@ you can find our default helm chart here: https://github.com/DataDog/helm-charts
 you can find a minikube-safe `values.yaml` in this repo
 
 create a file called `fb-values.yaml` with your helm config:
+```
+targetSystem: "linux"
+datadog:
+  apiKeyExistingSecret: datadog-agent
+  logLevel: DEBUG
+  kubelet:
+    tlsVerify: false
+  kubeStateMetricsEnabled: false
+```
+
+now to set the helm chart to use our custom agent image, we have to set the following:
+```
+agents:
+  image: 
+    name: traefik_agent  # image_name
+    tag: version1  # image_tag
+    repository: docker.io/throatslasher/traefik_agent  # registry/repository/image_name
+    doNotCheckTag: true  # set to true to bypass helm chart's version requirements
+```
+
+when you deploy the agent with this config, the agent package will now include the filebeat check code to run:
+- deploy with helm: https://docs.datadoghq.com/containers/kubernetes/installation/?tab=helm#minimum-agent-and-cluster-agent-versions
+```
+helm install datadog -f fb-values.yaml datadog/datadog
+```
+
+you should now have a datadog agent pod and cluster agent pod running
+
+now we need a filebeat deployment. i copied this one from the elastic filebeat k8s repo: https://github.com/elastic/beats/blob/master/deploy/kubernetes/filebeat-kubernetes.yaml#L45-L67
+and added the check config via annotations
+you can try making it yourself or find it in this repo under `answers/filebeat.yaml`
+
+create your filebeat deployment:
+```
+kubectl apply -f filebeat.yaml
+```
+
+and you should see a filebeat pod running as well. you can describe the pod to take a look at the annotations:
+```
+kubectl describe pod <filebeat_pod_name>
+```
+and get the agent status to see the filebeat check running:
+```
+kubectl exec -it <agent_pod_name> agent status
+```
+
