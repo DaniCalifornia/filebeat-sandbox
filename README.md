@@ -115,3 +115,4 @@ and get the agent status to see the filebeat check running:
 kubectl exec -it <agent_pod_name> agent status
 ```
 
+(there will be some errors cuz i can't figure out how to set the registry file path, sorry)

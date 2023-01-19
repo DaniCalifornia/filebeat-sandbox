@@ -3,8 +3,14 @@ datadog:
   apiKeyExistingSecret: datadog-agent
   processAgent:
     enabled: false
+  # Disabling Kubelet verification for minikube
   kubelet:
     tlsVerify: false
+  # Ignoring some problematic integrations on minikube
+  ignoreAutoConfig:
+    - etcd
+    - kube_controller_manager 
+    - kube_scheduler 
   logLevel: DEBUG
   kubeStateMetricsEnabled: false
 agents:
