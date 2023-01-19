@@ -1,12 +1,20 @@
-### Using a custom agent build for community integrations
+# Using a custom agent build for community integrations
 
-Filebeat doc: https://docs.datadoghq.com/integrations/filebeat/#pagetitle
+This sandbox takes you through how to build a custom agent image for installing community integrations.
 
-wiki: https://datadoghq.atlassian.net/wiki/spaces/TS/pages/2378662760/How+to+test+Integration+code+change+in+Containerized+agent 
+## Relevant docs:
 
-use community integrations: https://docs.datadoghq.com/agent/guide/use-community-integrations/?tab=docker#overview 
+- How to test Integration code change in Containerized agent (internal): https://datadoghq.atlassian.net/wiki/spaces/TS/pages/2378662760/How+to+test+Integration+code+change+in+Containerized+agent 
+- Use community integrations (public): https://docs.datadoghq.com/agent/guide/use-community-integrations/?tab=docker#overview 
 
-create dockerfile
+
+## Community integration: Filebeat
+
+- Filebeat doc: https://docs.datadoghq.com/integrations/filebeat/#pagetitle
+
+
+### Let's get started
+First, create your dockerfile
 ```
 FROM gcr.io/datadoghq/agent:latest
 RUN agent integration install -r -t datadog-filebeat==1.3.0
